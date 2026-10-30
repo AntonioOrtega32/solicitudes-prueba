@@ -368,6 +368,12 @@ Tiempo promedio de ciclo (creación a resolución), porcentaje de solicitudes ge
 Guardar en `docs/capturas/` y enlazar aquí:
 
 1. Listado con pestañas, filtros y solicitudes urgentes resaltadas.
+![App Screenshot](./docs/capturas/N1.png)
 2. Formulario de nueva solicitud (campos dinámicos según el tipo).
+![App Screenshot](./docs/capturas/S4.png)
 3. Detalle con aprobadores, adjuntos e historial.
+![App Screenshot](./docs/capturas/S2.png)
 4. Vista del administrador (solo lectura).
+![App Screenshot](./docs/capturas/S3.png)
+5. Login de inicio de sesión.
+![App Screenshot](./docs/capturas/S5.png)
