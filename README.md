@@ -370,5 +370,4 @@ Guardar en `docs/capturas/` y enlazar aquí:
 1. Listado con pestañas, filtros y solicitudes urgentes resaltadas.
 2. Formulario de nueva solicitud (campos dinámicos según el tipo).
 3. Detalle con aprobadores, adjuntos e historial.
-4. Bandeja "Por resolver" del aprobador y modal de aprobar o rechazar.
-5. Vista del administrador (solo lectura).
+4. Vista del administrador (solo lectura).
