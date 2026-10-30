@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Adjunto extends Model
 {
-    protected $table = 'adjuntos';
+    protected $table = 'adjuntos'; // archivos subidos por sol
 
     protected $fillable = [
         'solicitud_id', 'subido_por', 'nombre_original',

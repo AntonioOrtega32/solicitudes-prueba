@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Solicitud extends Model
 {
-    protected $table = 'solicitudes'; 
+    protected $table = 'solicitudes'; // nombre real de la tabla 
 
     protected $fillable = [
         'solicitante_id', 'tipo_solicitud_id', 'titulo', 'descripcion',
@@ -39,7 +39,7 @@ class Solicitud extends Model
     protected static function booted(): void
     {
         static::created(function (Solicitud $solicitud) {
-            $solicitud->folio = sprintf('SOL-%s-%06d', $solicitud->created_at->format('Y'), $solicitud->id);
+            $solicitud->folio = sprintf('SOL-%s-%06d', $solicitud->created_at->format('Y'), $solicitud->id); // genera folio automatico
             $solicitud->saveQuietly();
         });
     }
@@ -71,7 +71,7 @@ class Solicitud extends Model
 
     public function esUrgente(): bool
     {
-        return $this->prioridad === Prioridad::Urgente;
+        return $this->prioridad === Prioridad::Urgente; // check si es urgente
     }
 
     public function aprobacionPendientePara(User $usuario): ?Aprobacion
@@ -84,7 +84,7 @@ class Solicitud extends Model
             ->first();
     }
 
-    /** solicitudes puede listar cada rol */
+    /* solicitudes puede listar cada rol */
     public function scopeVisiblesPara(Builder $query, User $usuario): Builder
     {
         return match ($usuario->rol) {
@@ -110,7 +110,7 @@ class Solicitud extends Model
             ));
     }
 
-    /** Solicitudes donde es el turno de decidir de este aprobador. */
+    /* solicitudes donde es el turno de decidir de este aprobador */
     public function scopePendientesDeDecision(Builder $query, User $usuario): Builder
     {
         return $query

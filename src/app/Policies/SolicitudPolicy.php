@@ -11,7 +11,7 @@ class SolicitudPolicy
 {
     public function viewAny(User $usuario): bool
     {
-        return true; // el listado se limita con scopeVisiblesPara()
+        return true; // el listado se limita con el scopeVisiblesPara()
     }
 
     public function view(User $usuario, Solicitud $solicitud): bool
@@ -25,7 +25,7 @@ class SolicitudPolicy
 
     public function create(User $usuario): bool
     {
-        return $usuario->rol === Rol::Colaborador;
+        return $usuario->rol === Rol::Colaborador; // solo colaboradores crean
     }
 
     public function update(User $usuario, Solicitud $solicitud): bool
@@ -54,6 +54,6 @@ class SolicitudPolicy
 
     private function esSolicitante(User $usuario, Solicitud $solicitud): bool
     {
-        return (int) $solicitud->solicitante_id === $usuario->id;
+        return (int) $solicitud->solicitante_id === $usuario->id; // compara ids
     }
 }

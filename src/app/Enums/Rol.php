@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum Rol: string
 {
-    case Colaborador = 'colaborador';
+    case Colaborador = 'colaborador'; // usuario normal
     case Aprobador = 'aprobador';
     case Administrador = 'administrador';
 

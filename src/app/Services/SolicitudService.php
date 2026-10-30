@@ -16,30 +16,33 @@ use App\Models\Adjunto;
 
 class SolicitudService
 {
-    /* Crea la solicitud en borrador, la variable de $datos debe estar validada. */
+    // servicio principal para el flujo de solicitudes, todo pasa por aca
+
+    /* crea la solicitud en borrador, la variable de $datos debe estar validada. */
     public function crear(User $solicitante, array $datos): Solicitud
     {
         return DB::transaction(function () use ($solicitante, $datos) {
             $solicitud = Solicitud::create([
                 ...$datos,
                 'solicitante_id' => $solicitante->id,
-                'estado' => EstadoSolicitud::Borrador,
+                'estado' => EstadoSolicitud::Borrador, // arranca en borrador, despues se envia
             ]);
 
-            $this->registrar($solicitud, $solicitante, AccionHistorial::Creacion);
+            $this->registrar($solicitud, $solicitante, AccionHistorial::Creacion); // log de creacion
 
             return $solicitud;
         });
     }
 
-    /* Solo se edita en borrador o rechazada */
+    /* solo se edita en borrador o rechazada */
     public function actualizar(Solicitud $solicitud, User $usuario, array $datos): Solicitud
     {
         return DB::transaction(function () use ($solicitud, $usuario, $datos) {
             $solicitud = $this->bloquear($solicitud);
 
             if (! in_array($solicitud->estado, [EstadoSolicitud::Borrador, EstadoSolicitud::Rechazada], true)) {
-                throw new ReglaNegocioException('Solo se pueden editar solicitudes en borrador o rechazadas.');
+                // solo se toca si esta en borrador o rechazada
+                throw new ReglaNegocioException('Solo se pueden editar solicitudes en borrador o rechazadas.'); // validacion de estado
             }
 
             $solicitud->fill($datos);
@@ -182,7 +185,7 @@ class SolicitudService
         return $this->registrar($solicitud, $usuario, AccionHistorial::Comentario, $comentario);
     }
 
-    /* ---------- Reglas internas ---------- */
+    /* ---------- reglas internas ---------- */
 
     public function nivelesRequeridos(Solicitud $solicitud): int
     {
@@ -227,7 +230,7 @@ class SolicitudService
                 ?? throw new ReglaNegocioException('No tienes una aprobación pendiente para esta solicitud.');
         }
 
-    /** Relee la fila con bloqueo para evitar decisiones concurrentes. Solo dentro de una transacción. */
+    /* relee la fila con bloqueo para evitar decisiones concurrentes, solo dentro de una transaccion */
     private function bloquear(Solicitud $solicitud): Solicitud
     {
         return Solicitud::whereKey($solicitud->id)->lockForUpdate()->firstOrFail();

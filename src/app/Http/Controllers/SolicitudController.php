@@ -64,7 +64,7 @@ class SolicitudController extends Controller
 
         return view('solicitudes.create', [
             'tipos' => $tipos,
-            // El tipo elegido llega por ?tipo=ID y de él sale el formulario dinámico.
+            // el tipo elegido llega por tipo=ID y sale el formulario dinamico.
             'tipo' => $tipos->firstWhere('id', (int) $request->query('tipo')),
             'prioridades' => Prioridad::cases(),
         ]);
@@ -72,7 +72,7 @@ class SolicitudController extends Controller
 
     public function store(GuardarSolicitudRequest $request, SolicitudService $servicio)
     {
-        $solicitud = $servicio->crear($request->user(), $request->safe()->except('adjuntos'));
+        $solicitud = $servicio->crear($request->user(), $request->safe()->except('adjuntos')); // crea borrador
 
         if ($request->hasFile('adjuntos')) {
             $servicio->adjuntar($solicitud, $request->user(), $request->file('adjuntos'));

@@ -36,7 +36,7 @@ class GuardarSolicitudRequest extends FormRequest
             'adjuntos.*' => ['file', 'max:5120', 'mimes:pdf,png,jpg,jpeg,docx,xlsx'],
         ];
 
-        // El tipo se elige al crear y ya no cambia (el esquema de campos depende de él).
+        // el tipo se elige al crear y ya no cambia (el esquema de campos depende de él).
         if (! $editando) {
             $reglas['tipo_solicitud_id'] = [
                 'required',

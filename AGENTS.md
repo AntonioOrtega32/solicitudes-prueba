@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Laravel 13 app (PHP 8.3) for a multi-level request approval workflow. Application code lives in `src/`; run it through the root `docker-compose.yml`. This directory is not a git repository.
+Laravel 13 app (PHP 8.3) for a multi-level request approval workflow. Application code lives in `src/`; run it through the root `docker-compose.yml`. Root is a git repo.
 
 ## Commands
 
@@ -11,7 +11,7 @@ Run from repo root unless noted.
 - Build assets: `docker compose exec node npm run build` (or run `npm run build` in `src/` with local Node).
 - Migrate: `docker compose exec app php artisan migrate --force`
 - Seed demo users/types: `docker compose exec app php artisan db:seed`
-- Tests: `docker compose exec app php artisan test` (phpunit.xml forces sqlite `:memory:`; no MySQL needed).
+- Tests: `docker compose exec app php artisan test` (phpunit.xml forces sqlite `:memory:`; no MySQL needed). `composer test` runs `config:clear` then test.
 - Single test: `docker compose exec app php artisan test tests/Feature/FooTest.php` or `... --filter=FooTest`.
 - Lint/format: `docker compose exec app vendor/bin/pint` (fix) or `... pint --test`.
 - Tinker: `docker compose exec app php artisan tinker`.
@@ -28,6 +28,7 @@ Run from repo root unless noted.
 ## Conventions / gotchas
 
 - DB is MySQL 8 in Docker (`db`, host `db`, port 3306 inside; 3307 on host). Tests override to sqlite in-memory.
+- Container entrypoint runs `migrate --force` and seeds demo data when `SEED_DEMO=true`; re-running migrate manually is only needed outside the container flow.
 - `.env` already present and points at Docker DB; do not commit secrets.
 - Seeded users (password `password`): admin@example.com, aprobador1/2@example.com, colaborador1/2@example.com.
 - No static analysis tool configured; rely on Pint + PHPUnit.

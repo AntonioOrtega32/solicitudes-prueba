@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Aprobacion extends Model
 {
-    protected $table = 'aprobaciones';
+    protected $table = 'aprobaciones'; // tabla de aprobaciones por nivel
 
     protected $fillable = [
         'solicitud_id', 'aprobador_id', 'nivel', 'ciclo',
