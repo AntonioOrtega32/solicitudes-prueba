@@ -57,14 +57,13 @@ Los datos de demostración incluyen solicitudes en todos los estados: borrador, 
 - **Prioridad:** Baja, Media, Alta y Urgente. Las **urgentes** se destacan en los listados (fila resaltada, borde y etiqueta animada).
 - **Historial:** toda acción relevante queda registrada con fecha, usuario y acción: creación, edición, envío, reenvío, aprobación, rechazo y comentario. El historial es de solo inserción.
 - **Folio único** autogenerado (`SOL-AAAA-000001`).
-- **Filtros del listado:** pestañas por estado (con conteo), tipo, prioridad, rango de fechas y búsqueda por folio o asunto. **Exportación a CSV** con los mismos filtros.
+- **Filtros del listado:** pestañas por estado (con conteo), tipo, prioridad, rango de fechas y búsqueda por folio o asunto.
 
 ### Rutas principales
 
 | Método | Ruta | Descripción |
 |---|---|---|
 | GET | `/solicitudes` | Listado con filtros, pestañas y paginación |
-| GET | `/solicitudes/exportar` | Exportación CSV con los filtros activos |
 | GET/POST | `/solicitudes/create`, `/solicitudes` | Formulario dinámico por tipo y creación |
 | GET | `/solicitudes/{solicitud}` | Detalle: datos, adjuntos, aprobadores e historial |
 | GET/PUT | `/solicitudes/{solicitud}/edit`, `/solicitudes/{solicitud}` | Edición (borrador o rechazada) |
@@ -230,7 +229,6 @@ flowchart TD
     PR --> DE
     DE -->|Aprobador asignado| RE[Aprobar o rechazar con comentario]
     RE --> DE
-    LI --> EX[Exportar CSV]
 ```
 
 ## 8. Decisiones de diseño
@@ -259,7 +257,6 @@ flowchart TD
 - **El rol no es asignable** desde ningún formulario; los controladores usan solo datos validados (nunca `request()->all()`).
 - **Validación de entrada** con Form Requests: el monto está prohibido en tipos que no lo usan (no se puede forzar la segunda aprobación), el tipo no cambia tras crearse y los aprobadores deben tener rol Aprobador, ser distintos entre sí y no ser el solicitante.
 - **Adjuntos:** tipos permitidos (PDF, PNG, JPG, DOCX, XLSX), máximo 5 archivos de 5 MB por envío, almacenamiento privado y descarga autorizada.
-- **Exportación CSV** con neutralización de fórmulas (prevención de inyección en hojas de cálculo).
 - **Doble envío:** los formularios deshabilitan el botón al enviar y la base de datos impide duplicados en aprobaciones.
 - **Mejoras para producción:** SSO corporativo con MFA, antivirus para adjuntos, cifrado en reposo, registro de IP y agente de usuario en el historial, y gestión de secretos fuera del repositorio.
 
@@ -361,7 +358,7 @@ Tiempo promedio de ciclo (creación a resolución), porcentaje de solicitudes ge
 | 2 | Migraciones, modelos, enums y seeders; `SolicitudService` con la máquina de estados, segunda aprobación e historial; autenticación, Policies y Form Requests. |
 | 3 | Controladores y rutas; vistas (listado con filtros y pestañas, formulario dinámico por tipo, detalle con historial, bandeja del aprobador, login). |
 | 4 | Pruebas automatizadas y corrección de errores (incluida la protección contra doble envío); verificación de entrega desde un clon limpio en otro equipo; datos de demostración. |
-| 5 | Exportación CSV, documentación (arquitectura, diagramas, decisiones, plan de migración) y preparación de la presentación. |
+| 5 | Documentación (arquitectura, diagramas, decisiones, plan de migración) y preparación de la presentación. |
 
 ## 15. Capturas de pantalla
 
